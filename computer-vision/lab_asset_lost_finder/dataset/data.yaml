@@ -1,0 +1,10 @@
+# 실습실 기자재 및 마우스 전용 고정밀 커스텀 데이터셋 설정
+path: C:/Users/82107/.gemini/antigravity-ide/scratch/computer-vision/lab_asset_lost_finder/dataset
+train: images/train
+val: images/val
+
+names:
+  0: mouse
+  1: public_mouse
+  2: keyboard
+  3: small_item

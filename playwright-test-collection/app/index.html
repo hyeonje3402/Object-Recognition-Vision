@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Playwright 테스트용 로컬 모의 웹 애플리케이션 데모 페이지">
+  <title>Playwright Sandbox App</title>
+  <!-- Google Font: Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-container">
+      <h1>Playwright Sandbox Playground</h1>
+      <button id="theme-toggle-btn" class="btn btn-secondary" aria-label="다크 모드 토글">
+        <span class="icon">🌙</span> Dark Mode
+      </button>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <div class="grid-container">
+      
+      <!-- 1. 기본 Form 영역 (Basic Form) -->
+      <section class="card" id="form-section">
+        <h2>1. Basic Form</h2>
+        <form id="feedback-form" novalidate>
+          <div class="form-group">
+            <label for="user-name">이름</label>
+            <input type="text" id="user-name" placeholder="이름을 입력하세요" required>
+            <span class="error-msg" id="name-error">이름은 필수 항목입니다.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="user-email">이메일</label>
+            <input type="email" id="user-email" placeholder="example@domain.com" required>
+            <span class="error-msg" id="email-error">올바른 이메일 주소를 입력하세요.</span>
+          </div>
+
+          <div class="form-group-row">
+            <label for="subscribe-checkbox">
+              <input type="checkbox" id="subscribe-checkbox">
+              뉴스레터 구독 신청
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label for="preferred-browser">가장 자주 쓰는 브라우저</label>
+            <select id="preferred-browser">
+              <option value="">선택해주세요</option>
+              <option value="chromium">Chromium</option>
+              <option value="firefox">Firefox</option>
+              <option value="webkit">WebKit</option>
+            </select>
+          </div>
+
+          <button type="submit" id="submit-btn" class="btn btn-primary">제출하기</button>
+        </form>
+        <div id="form-result" class="result-box hidden">
+          <h3>제출 완료!</h3>
+          <p id="result-message"></p>
+        </div>
+      </section>
+
+      <!-- 2. 고급 인터랙션 영역 (Drag & Drop, File Upload, Popups) -->
+      <section class="card" id="interaction-section">
+        <h2>2. Advanced Interaction</h2>
+        
+        <!-- Drag & Drop -->
+        <div class="sub-section">
+          <h3>Drag & Drop</h3>
+          <div class="drag-container">
+            <div id="drag-source" draggable="true">Drag Me!</div>
+            <div id="drop-target">Drop Here</div>
+          </div>
+          <p id="drag-status" class="status-text">드래그를 시작하거나 대기 중입니다.</p>
+        </div>
+
+        <!-- File Upload -->
+        <div class="sub-section">
+          <h3>File Upload</h3>
+          <div class="file-upload-wrapper">
+            <label for="file-input" class="file-label">파일 선택</label>
+            <input type="file" id="file-input" class="hidden-input">
+            <span id="file-name" class="status-text">선택된 파일 없음</span>
+          </div>
+          <p id="upload-status" class="status-text hidden">파일이 업로드되었습니다.</p>
+        </div>
+
+        <!-- Popups & Tabs -->
+        <div class="sub-section">
+          <h3>Multi-window / Popup</h3>
+          <button id="open-popup-btn" class="btn btn-outline">새 팝업 탭 열기</button>
+          <p id="popup-status" class="status-text">팝업 대기 중...</p>
+        </div>
+      </section>
+
+      <!-- 3. Iframe 영역 (Iframe Interaction) -->
+      <section class="card" id="iframe-section">
+        <h2>3. Iframe Container</h2>
+        <div class="iframe-wrapper">
+          <iframe id="test-iframe" src="iframe.html" title="테스트용 임베디드 프레임"></iframe>
+        </div>
+      </section>
+
+      <!-- 4. 네트워크 모킹 영역 (Network Mocking) -->
+      <section class="card" id="network-section">
+        <h2>4. Network & API Fetch</h2>
+        <button id="fetch-users-btn" class="btn btn-primary">Fetch Users</button>
+        <div class="table-wrapper">
+          <table id="users-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>이름</th>
+                <th>이메일</th>
+              </tr>
+            </thead>
+            <tbody id="users-tbody">
+              <!-- API 응답 결과가 동적으로 렌더링 됨 -->
+              <tr id="no-data-row">
+                <td colspan="3" class="text-center">데이터를 불러오려면 위 버튼을 클릭하세요.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 5. 에뮬레이션 및 모니터링 영역 (Emulation & Monitoring) -->
+      <section class="card" id="emulation-section">
+        <h2>5. Emulation & Monitoring</h2>
+        
+        <!-- Geolocation -->
+        <div class="sub-section">
+          <h3>Geolocation</h3>
+          <button id="geolocation-btn" class="btn btn-outline">내 위치 정보 확인</button>
+          <p id="geolocation-status" class="status-text">위치 권한 대기 중...</p>
+        </div>
+
+        <!-- Logging & Error Trigger -->
+        <div class="sub-section">
+          <h3>Console & Error Monitoring</h3>
+          <div class="btn-group">
+            <button id="trigger-log-btn" class="btn btn-secondary">Console Log 기록</button>
+            <button id="trigger-error-btn" class="btn btn-danger">JS Error 유발</button>
+          </div>
+          <p class="status-text">콘솔 및 에러 모니터링 테스트용 버튼입니다.</p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <p>&copy; 2026 Playwright Test Sandbox. Powered by Antigravity AI.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iframe Content</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Outfit', sans-serif;
+      margin: 0;
+      padding: 1rem;
+      background-color: #f1f5f9;
+      color: #0f172a;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    
+    /* Dark mode match check (from parent URL search param or media query) */
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #1e293b;
+        color: #f8fafc;
+      }
+    }
+    
+    /* Custom style if it runs inside a popup */
+    .popup-only {
+      display: none;
+      padding: 10px;
+      background-color: #e0f2fe;
+      border: 1px solid #0284c7;
+      border-radius: 6px;
+      color: #0369a1;
+      margin-bottom: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    body.is-popup {
+      background-color: #ffffff;
+      padding: 2rem;
+    }
+    
+    body.is-popup .popup-only {
+      display: block;
+    }
+
+    h3 {
+      font-size: 1rem;
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      color: #6366f1;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      outline: none;
+    }
+
+    input[type="text"]:focus {
+      border-color: #6366f1;
+    }
+
+    button {
+      padding: 8px 16px;
+      background-color: #6366f1;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #4f46e5;
+    }
+
+    #iframe-status {
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      color: #475569;
+    }
+  </style>
+</head>
+<body>
+  <div class="popup-only" id="popup-notice">
+    ℹ️ 이 페이지는 독립된 팝업 창에서 실행 중입니다.
+  </div>
+
+  <h3 id="iframe-title">Iframe Workspace</h3>
+  <div class="form-row">
+    <input type="text" id="iframe-input" placeholder="이곳에 텍스트를 입력">
+    <button id="iframe-submit-btn">보내기</button>
+  </div>
+  <p id="iframe-status">아직 입력된 메시지가 없습니다.</p>
+
+  <script>
+    // Detect URL params
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('type') === 'popup') {
+      document.body.classList.add('is-popup');
+      document.getElementById('iframe-title').textContent = 'Popup Workspace';
+    }
+
+    // Input submit handling
+    const submitBtn = document.getElementById('iframe-submit-btn');
+    const input = document.getElementById('iframe-input');
+    const status = document.getElementById('iframe-status');
+
+    submitBtn.addEventListener('click', () => {
+      const text = input.value.trim();
+      if (text) {
+        status.textContent = `제출 완료: "${text}"`;
+        console.log('Iframe submitted:', text);
+      } else {
+        status.textContent = '메시지를 입력해주세요.';
+      }
+    });
+  </script>
+</body>
+</html>
