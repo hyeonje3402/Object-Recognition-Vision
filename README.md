@@ -1,119 +1,141 @@
-# 👁️ Object-Recognition-Vision
+# 🏫 실습실 기자재 반출 방지 및 분실물 탐지 시스템
+### Lab Asset Security & Lost Property Detection System
 
-> **컴퓨터 비전(YOLOv8/YOLO11, SAHI) 기반 스마트 객체 감지·상태 추적 시스템 및 종합 관리 플랫폼**
+> **CCTV 기반 영상 인식, FSM 유한 상태 머신, SAHI 소형 객체 탐지 및 실시간 알림 파이프라인을 결합한 스마트 실습실 안전·보안 관리 솔루션**
 
 [![Python Version](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![YOLO Models](https://img.shields.io/badge/YOLO-v8%20%7C%2011-00FFFF.svg)](https://github.com/ultralytics/ultralytics)
-[![OpenCV](https://img.shields.io/badge/OpenCV-4.x-green.svg)](https://opencv.org/)
+[![SAHI Inference](https://img.shields.io/badge/Inference-SAHI%20Slicing-orange.svg)](https://github.com/obss/sahi)
+[![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg)](https://fastapi.tiangolo.com/)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](LICENSE)
 
 ---
 
 ## 📋 목차
-1. [프로젝트 개요](#-프로젝트-개요)
-2. [저장소 구조](#-저장소-구조)
-3. [서브 프로젝트 상세](#-서브-프로젝트-상세)
-   - [1. 실습실 기자재 반출 방지 및 분실물 탐지 시스템](#1-실습실-기자재-반출-방지-및-분실물-탐지-시스템-lab_asset_lost_finder)
-   - [2. 반려견 안전 및 맹견 법령 모니터링 시스템](#2-반려견-안전-및-맹견-법령-모니터링-시스템-dog_safety_system)
-   - [3. 채용 정보 관리 시스템](#3-채용-정보-관리-시스템-job-info-management-system)
-   - [4. Playwright E2E 자동화 테스트 컬렉션](#4-playwright-e2e-자동화-테스트-컬렉션-playwright-test-collection)
-4. [기술 스택](#-기술-스택)
-5. [시작하기 (Getting Started)](#-시작하기-getting-started)
-6. [라이선스](#-라이선스)
+1. [프로젝트 소개](#-프로젝트-소개)
+2. [핵심 아키텍처 및 원리](#-핵심-아키텍처-및-원리)
+3. [주요 기능](#-주요-기능)
+4. [디렉토리 구조](#-디렉토리-구조)
+5. [설치 및 환경 설정](#-설치-및-환경-설정)
+6. [실행 가이드](#-실행-가이드)
+7. [설정 가이드 (config.py)](#-설정-가이드-configpy)
+8. [라이선스](#-라이선스)
 
 ---
 
-## 🌟 프로젝트 개요
+## 🌟 프로젝트 소개
 
-`Object-Recognition-Vision` 저장소는 최신 딥러닝 객체 탐지(YOLOv8, YOLO11)와 영상 처리(OpenCV, SAHI) 기법을 기반으로 실생활 및 시설 관리의 안전·보안 문제를 해결하는 컴퓨터 비전 프로젝트 컬렉션입니다. 
+대학 실습실, 세미나실, 전산실 등 공용 공간에서는 **공용 기자재(마우스, 키보드, HDMI 케이블, 빔프로젝터 리모컨 등)의 무단 반출/도난**과 **퇴실 시 학생들의 개인 분실물(지갑, 텀블러, 무선 이어폰 등) 방치 문제**가 빈번하게 발생합니다.
 
-단순 탐지를 넘어 **유한 상태 머신(Finite State Machine)**, **관심 영역(ROI) 분석**, **동적 전처리 파이프라인(CLAHE)**을 결합하여 오탐률을 최소화하고 실시간 이벤트 트리거링을 제공합니다.
+본 시스템은 고정형 CCTV 영상을 실시간으로 분석하여:
+1. **공용 기자재의 위치 및 소지자 이동 경로를 추적**하여 무단 반출 시도를 조기에 감지하고 경보를 발령합니다.
+2. **학생 좌석 및 책상 위 방치된 개인 물품**을 인식하고, 사용자가 퇴실한 후 일정 시간이 지나면 분실물로 자동 등록하여 분실률을 최소화합니다.
 
 ```mermaid
-graph TD
-    A[입력 영상 / CCTV 스트림] --> B[Vision Engine: CLAHE 전처리 & 정규화]
-    B --> C{탐지 모드}
-    C -->|실시간 고속 탐지| D[YOLOv8 / YOLO11]
-    C -->|원거리 초소형 객체| E[SAHI Slicing Inference]
-    D --> F[ROI 및 IOU 매칭 엔진]
+flowchart TD
+    A[CCTV 영상 입력 / 스트림] --> B[Vision Engine: CLAHE 대비 개선]
+    B --> C{추론 모드 선택}
+    C -->|실시간 고속 처리| D[YOLOv8 / YOLO11n]
+    C -->|원거리 초소형 객체| E[SAHI Slicing Hyper Inference]
+    D --> F[다중 ROI 판정 & 사람-물품 근접도 계산]
     E --> F
-    F --> G[FSM 상태 머신: 상태 전이 & 타이머 평가]
-    G --> H[시각화 HUD / 경보 / FastAPI 알림]
+    F --> G[FSM 상태 머신 엔진]
+    G --> H[룰 1: 기자재 반출 라이프사이클 평가]
+    G --> I[룰 2: 개인 분실물 방치 라이프사이클 평가]
+    H --> J[실시간 HUD 모니터링 시각화]
+    I --> J
+    H --> K[FastAPI 비동기 알림 서버 전송]
+    I --> K
 ```
 
 ---
 
-## 📂 저장소 구조
+## ⚙️ 핵심 아키텍처 및 원리
+
+### 1. FSM (유한 상태 머신) 기반 이벤트 라이프사이클
+단순히 물체가 감지되지 않는다고 즉시 도난으로 판단하면 조작 중 손에 가려지는 현상(Occlusion)으로 인해 수많은 오경보(False Alarm)가 발생합니다. 본 시스템은 다단계 FSM을 적용하여 신뢰도 높은 상태 관리를 수행합니다.
+
+#### 📌 룰 1: 공용 기자재 반출 방지 FSM (`AssetSecurityStateMachine`)
+```mermaid
+stateDiagram-v2
+    [*] --> SAFE: 교탁 ROI 내 기자재 상시 감지
+    SAFE --> IN_USE_PODIUM: 조작 중 손 가려짐 (교탁에 사용자 존재)
+    IN_USE_PODIUM --> SAFE: 조작 완료 후 재감지
+    SAFE --> WARNING: 교탁에 사람 없이 기자재 사라짐 (타이머 시작)
+    IN_USE_PODIUM --> WARNING: 사용자 교탁 이탈 및 기자재 사라짐
+    WARNING --> SAFE: 기자재 원위치 복귀
+    WARNING --> THEFT_ALERT: 출입문(DOOR ROI) 사용자 감지 OR 타이머 초과
+```
+
+* **`SAFE`**: 교탁 ROI 영역에 기자재가 정상적으로 배치되어 있음
+* **`IN_USE_PODIUM`**: 물품이 손에 일시적으로 가려졌으나, 교탁 영역에 사용자가 위치하여 정상 사용 중으로 판단 (오경보 차단)
+* **`WARNING`**: 교탁 영역에 사람이 없는데 기자재가 사라져 이동 의심 타이머 카운트다운 진행
+* **`THEFT_ALERT`**: 타이머 초과 시점 또는 **출입문(DOOR ROI) 영역에 사람이 진입할 경우 즉각 도난 경보** 발령
+
+---
+
+#### 📌 룰 2: 개인 분실물 방치 탐지 FSM (`LostPropertyStateMachine`)
+```mermaid
+stateDiagram-v2
+    [*] --> ATTENDED: 물품 주변 반경 내 소지자 위치
+    ATTENDED --> UNATTENDED: 소지자가 좌석/책상을 이탈함 (타이머 시작)
+    UNATTENDED --> ATTENDED: 소지자가 다시 좌석으로 복귀
+    UNATTENDED --> LOST_CONFIRMED: 설정 시간 초과 (분실물 확정 & 알림 발송)
+```
+
+* **`ATTENDED`**: 물품 반경(`PERSON_PROXIMITY_PIXELS`) 내에 사람이 함께 존재
+* **`UNATTENDED`**: 소지자가 좌석을 비워 방치 상태로 전환되며 타이머 시작
+* **`LOST_CONFIRMED`**: 지정된 시간(예: 5분, 데모 8초) 동안 복귀하지 않을 경우 분실물로 확정 등록
+
+---
+
+### 2. 초소형 객체 정밀 탐지 (SAHI: Slicing Aided Hyper Inference)
+- CCTV 원거리 촬영 시 마우스, USB, 케이블 등 소형 기자재는 일반 YOLO 추론 시 리사이즈 과정에서 픽셀 정보 손실이 발생합니다.
+- **SAHI 슬라이싱 추론 파이프라인**을 통해 고해상도 영상을 패치 단위로 분할 추론 후 NMS로 병합하여 원거리 소형 객체 검출률을 극대화했습니다.
+
+### 3. 적응형 조명 보정 (CLAHE)
+- 실습실 조명 ON/OFF, 자연 채광 및 창문 역광 상황에서도 정확한 물체 인식이 가능하도록 밝기 채널(L 채널)에 **CLAHE(Contrast Limited Adaptive Histogram Equalization)** 전처리를 선택 적용합니다.
+
+---
+
+## 📂 디렉토리 구조
 
 ```text
 Object-Recognition-Vision/
-├── computer-vision/
-│   ├── lab_asset_lost_finder/       # 🏫 실습실 기자재 반출 방지 & 분실물 탐지
-│   │   ├── api/                     # FastAPI 웹 백엔드 및 알림 엔드포인트
-│   │   ├── core/                    # FSM 상태 머신 및 비전 엔진 코어
-│   │   │   ├── state_machine.py     # 기자재/분실물 라이프사이클 FSM
-│   │   │   └── vision_engine.py     # YOLO + CLAHE 영상 추론 엔진
-│   │   ├── config.py                # ROI 좌표, 타이머, 임계값 설정
-│   │   ├── main.py                  # 실시간 영상 처리 및 HUD 렌더러
-│   │   ├── sahi_yolo_detection.py   # SAHI 소형 물체 고해상도 슬라이싱 탐지
-│   │   └── prepare_training_data.py # 파인튜닝 데이터셋 전처리 파이프라인
-│   │
-│   ├── dog_safety_system/           # 🐕 동물보호법 기반 반려견/맹견 안전 모니터링
-│   │   ├── detect_dog_safety.py     # 이미지 기반 목줄·입마개·맹견 위험도 평가
-│   │   ├── detect_cctv_video.py     # CCTV 영상 실시간 안전 규정 준수 추적
-│   │   └── input_images/            # 테스트 샘플 이미지
-│   │
-│   └── models/ (*.pt)               # 사전 학습된 YOLO 가중치 모델
-│
-├── job-info-management-system/      # 💼 채용 및 취업 정보 관리 프론트엔드 (React + Vite)
-├── playwright-test-collection/      # 🧪 웹 애플리케이션 E2E 종합 테스트 수트
-└── README.md
+└── computer-vision/
+    └── lab_asset_lost_finder/
+        ├── api/
+        │   └── server.py                  # FastAPI 비동기 이벤트 알림 서버
+        ├── core/
+        │   ├── state_machine.py           # 기자재 & 분실물 FSM 상태 머신 엔진
+        │   └── vision_engine.py           # YOLO 추론, CLAHE 전처리, 바운딩 박스 매칭
+        ├── config.py                      # ROI 정규화 좌표, 타이머, 대상 클래스 설정
+        ├── main.py                        # 실시간 CCTV/웹캠 분석 및 HUD 시각화 메인
+        ├── sahi_yolo_video_detection.py   # SAHI 기반 고해상도 비디오 슬라이싱 탐지
+        ├── sahi_yolo_detection.py         # 단일 이미지 SAHI 정밀 분석 스크립트
+        ├── prepare_training_data.py       # 실습실 데이터셋 증강 및 전처리 스크립트
+        ├── train_lab_model.py             # 커스텀 기자재 YOLO 파인튜닝 스크립트
+        ├── evaluate_trained_model.py      # 정밀도/재현율 평가 스크립트
+        ├── input_images/                  # 테스트 입력 이미지 디렉토리
+        ├── input_videos/                  # 테스트 입력 비디오 디렉토리
+        └── output_results/                # HUD 오버레이 분석 결과물 저장소
 ```
-
----
-
-## 🔍 서브 프로젝트 상세
-
-### 1. 실습실 기자재 반출 방지 및 분실물 탐지 시스템 (`lab_asset_lost_finder`)
-* **목적**: 대학/학원 실습실 내 공용 기자재(마우스, 케이블 등)의 무단 반출 방지 및 퇴실 후 방치된 개인 분실물(지갑, 텀블러, 노트북 등) 자동 식별
-* **핵심 기능**:
-  - **다중 구역 ROI 분석**: 교탁 구역(PODIUM), 퇴실 문(DOOR EXIT), 학생 책상 구역 분리 모니터링
-  - **FSM 상태 머신(Finite State Machine)**:
-    - *기자재(Asset)*: `STABLE` ➡️ `IN_USE` ➡️ `MISSING` ➡️ `SUSPECTED_THEFT` (퇴실문 통과 시 경보)
-    - *분실물(Lost Property)*: `ACCOMPANIED` ➡️ `UNATTENDED` (일정 시간 방치) ➡️ `LOST_CONFIRMED`
-  - **SAHI (Slicing Aided Hyper Inference)**: 4K/FHD 고해상도 CCTV에서 멀리 떨어진 소형 USB, 마우스, 케이블 정밀 인식
-  - **적응형 영상 전처리 (CLAHE)**: 조명 변화가 심한 실습실 환경에서 국소 대비 개선
-
-### 2. 반려견 안전 및 맹견 법령 모니터링 시스템 (`dog_safety_system`)
-* **목적**: 대한민국 동물보호법(제13조의2)에 명시된 맹견 관리 규정 준수 모니터링 및 공공 안전 확보
-* **핵심 기능**:
-  - **견종 및 위험도 분석**: 도사견, 핏불테리어, 로트와일러 등 5대 맹견 품종 및 일반 반려견 구분
-  - **안전 장구 감지**: 목줄(Leash) 착용 거리 및 입마개(Muzzle) 착용 여부 분석
-  - **위험 알림**: 보호자 미동반 단독 보행, 어린이 보호구역 출입 시 과태료 안내 및 즉각 경보 송출
-
-### 3. 채용 정보 관리 시스템 (`job-info-management-system`)
-* **목적**: 구직 공고, 지원 일정, 상태(서류/면접/합격)를 체계적으로 추적·관리하는 대시보드
-* **기술**: React 18, Vite, CSS Modules, LocalStorage/REST API 연동
-
-### 4. Playwright E2E 자동화 테스트 컬렉션 (`playwright-test-collection`)
-* **목적**: 웹 서비스 안정성 보장을 위한 종합 자동화 테스트 아키텍처
-* **테스트 수트**: 기본 Form 검증, 드래그&드롭, iframe/팝업 제어, 네트워크 모킹, 비주얼 회귀 테스트, 디바이스 에뮬레이션
 
 ---
 
 ## 🛠️ 기술 스택
 
-| 분류 | 기술 및 라이브러리 |
+| 구분 | 주요 기술 |
 | :--- | :--- |
-| **Vision & Deep Learning** | `Python 3.10+`, `Ultralytics YOLOv8 / YOLO11`, `SAHI`, `PyTorch` |
-| **Image & Video Processing** | `OpenCV (cv2)`, `NumPy`, `Pillow` |
-| **Backend & API** | `FastAPI`, `Uvicorn`, `Pydantic` |
-| **Frontend & Web** | `React`, `Vite`, `JavaScript (ES6+)`, `Tailwind CSS` |
-| **Testing & Automation** | `Playwright`, `ESLint` |
+| **객체 탐지 (Object Detection)** | `Ultralytics YOLOv8 / YOLO11`, `SAHI (Slicing Aided Hyper Inference)` |
+| **영상 처리 (Computer Vision)** | `OpenCV (cv2)`, `NumPy`, `Pillow` |
+| **상태 관리 (State Management)** | Python FSM (Finite State Machine Architecture) |
+| **백엔드 (API & Monitoring)** | `FastAPI`, `Uvicorn`, `Pydantic` |
+| **언어 및 런타임** | `Python 3.10+` |
 
 ---
 
-## 🚀 시작하기 (Getting Started)
+## 🚀 설치 및 환경 설정
 
 ### 1. 저장소 클론 및 가상환경 설정
 ```bash
@@ -125,44 +147,59 @@ cd Object-Recognition-Vision
 python -m venv venv
 # Windows:
 venv\Scripts\activate
-# Linux/macOS:
+# Linux / macOS:
 source venv/bin/activate
 ```
 
-### 2. 컴퓨터 비전 의존성 패키지 설치
+### 2. 필수 라이브러리 설치
 ```bash
 pip install ultralytics opencv-python sahi fastapi uvicorn numpy pillow
 ```
 
-### 3. 프로젝트 실행 예시
+---
 
-#### [실습실 분실물/기자재 감지 시스템 실행]
+## 💻 실행 가이드
+
+### 1. 실시간 모니터링 시스템 실행 (`main.py`)
+웹캠 또는 비디오 파일을 입력받아 실시간으로 교탁, 출입문, 좌석 ROI를 추적하고 HUD를 표시합니다.
 ```bash
 cd computer-vision/lab_asset_lost_finder
 
-# 실시간 웹캠 또는 비디오 분석 실행
+# 기본 실행 (웹캠 0번 또는 기본 비디오)
 python main.py
+```
 
-# SAHI 기반 소형 객체 고정밀 탐지 실행
+### 2. SAHI 기반 초소형 객체 정밀 비디오 분석
+원거리 마우스, 케이블 등 미세 객체를 고해상도 슬라이싱으로 추론합니다.
+```bash
 python sahi_yolo_video_detection.py
 ```
 
-#### [반려견 안전 감지 시스템 실행]
+### 3. FastAPI 이벤트 알림 서버 구동
+반출 의심 및 분실물 확정 이벤트를 수신하는 백엔드 서버를 구동합니다.
 ```bash
-cd computer-vision/dog_safety_system
-
-# 테스트 이미지 분석 실행
-python detect_dog_safety.py
-
-# CCTV 영상 모니터링 실행
-python detect_cctv_video.py
+cd api
+uvicorn server:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-#### [채용 정보 관리 시스템 실행]
-```bash
-cd job-info-management-system
-npm install
-npm run dev
+---
+
+## ⚙️ 설정 가이드 (`config.py`)
+
+실습실 구조 및 카메라 화각에 맞추어 `config.py`에서 파라미터를 손쉽게 튜닝할 수 있습니다:
+
+```python
+# 1. 카메라 해상도 무관 (0.0 ~ 1.0 정규화 비율 좌표)
+PODIUM_DESK: (0.05, 0.40, 0.40, 0.85)   # 교탁/공용 기자재 영역
+DOOR_EXIT:   (0.75, 0.10, 0.98, 0.90)   # 실습실 출입문 영역
+STUDENT_DESK:(0.35, 0.45, 0.85, 0.95)   # 학생 좌석/책상 영역
+
+# 2. 타이머 및 거리 임계값
+TIMER_CONFIG = {
+    "ASSET_MISSING_TIMEOUT_SEC": 10.0,   # 공용 기자재 부재 허용 시간 (데모용 10초)
+    "LOST_ITEM_TIMEOUT_SEC": 8.0,        # 방치 분실물 판정 시간 (데모용 8초)
+    "PERSON_PROXIMITY_PIXELS": 150       # 소지자-물품 간 유효 반경 (픽셀)
+}
 ```
 
 ---
