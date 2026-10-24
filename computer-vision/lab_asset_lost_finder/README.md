@@ -20,9 +20,9 @@
 ## 📁 주요 구성 파일
 - `main.py`: 실시간 프레임 추론, FSM 룰 평가 및 HUD 시각화 실행
 - `config.py`: ROI 관심영역(교탁, 출구문, 책상 등) 비율 및 타이머 설정
-- `core/vision_engine.py`: YOLOv8/11 추론, CLAHE 전처리, 바운딩 박스 보정
-- `core/state_machine.py`: 기자재 및 분실물 상태 머신 클래스
-- `sahi_yolo_video_detection.py`: SAHI 기반 소형 객체 고정밀 비디오 분석
+- `core/report_generator.py`: 분실물/도난 증거 물품 고화질 크롭 및 공식 조사 보고서(JPG/HTML/JSON) 자동 생성기
+- `generate_incident_reports.py`: 다중 강의실 분실물 및 도난 사건 증거 리포트 자동 발급 실증 스크립트
+- `render_all_items_new_video.py`: 2944x1248 초고화질 신규 CCTV 영상 전수 객체 탐지 및 창문 반사 필터링
 - `prepare_training_data.py`: 실습실 맞춤형 초소형 분실물(에어팟, 충전기/어댑터) 데이터셋 증강 및 패치 생성
 - `train_lab_model.py`: YOLO11n 기반 실습실 전이학습(Fine-tuning) 스크립트
 - `evaluate_trained_model.py`: 파인튜닝된 가중치(`best.pt`) 추론 및 HUD 통계 시각화

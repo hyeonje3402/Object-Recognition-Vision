@@ -1,0 +1,28 @@
+{
+  "incident_id": "INC-20261024_234631-859",
+  "incident_type": "ASSET_THEFT",
+  "item_class": "public_mouse",
+  "confidence": 0.968,
+  "timestamp": "2026-10-24 23:46:31",
+  "classroom": {
+    "name": "IT-융합공학관 402호 멀티미디어실습실",
+    "camera": "CCTV-CAM-01 (후방 4K 와이드)",
+    "seat_location": "강단 교탁 메인 PC 본체 우측 거치대"
+  },
+  "bounding_box": {
+    "x1": 1120,
+    "y1": 990,
+    "x2": 1175,
+    "y2": 1045,
+    "width": 55,
+    "height": 55
+  },
+  "investigation": {
+    "suspect_note": "수업 종료 직후 교탁에 교수가 없는 상태에서 물품이 분리되어 출입문(DOOR ROI)으로 이동 감지",
+    "action_taken": "경비 관제실 비상 팝업 알림 전송 및 해당 타임스탬프 CCTV 녹화 영상(10초) 영구 보존 조치"
+  },
+  "files": {
+    "crop_image": "incident_reports\\crops\\INC-20261024_234631-859_public_mouse_crop.jpg",
+    "report_card_image": "incident_reports\\cards\\INC-20261024_234631-859_ASSET_THEFT_report_card.jpg"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "incident_id": "INC-20261024_234630-319",
+  "incident_type": "LOST_PROPERTY",
+  "item_class": "airpods",
+  "confidence": 0.924,
+  "timestamp": "2026-10-24 23:46:30",
+  "classroom": {
+    "name": "IT-융합공학관 402호 멀티미디어실습실",
+    "camera": "CCTV-CAM-01 (후방 4K 와이드)",
+    "seat_location": "3열 2번 좌석 (키보드 우측 마우스패드 옆)"
+  },
+  "bounding_box": {
+    "x1": 1985,
+    "y1": 785,
+    "x2": 2045,
+    "y2": 835,
+    "width": 60,
+    "height": 50
+  },
+  "investigation": {
+    "suspect_note": "23:35분경 네이비 후드티 착용 학생 퇴실 후 책상 위에 방치됨. 유예 시간(5분) 초과",
+    "action_taken": "실습실 관리자 분실물 임시 보관함 #A-03으로 이관 및 학생 포털 분실물 게시판 자동 등록"
+  },
+  "files": {
+    "crop_image": "incident_reports\\crops\\INC-20261024_234630-319_airpods_crop.jpg",
+    "report_card_image": "incident_reports\\cards\\INC-20261024_234630-319_LOST_PROPERTY_report_card.jpg"
+  }
+}
