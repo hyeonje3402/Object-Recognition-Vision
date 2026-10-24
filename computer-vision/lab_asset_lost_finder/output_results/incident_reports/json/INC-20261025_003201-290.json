@@ -1,0 +1,28 @@
+{
+  "incident_id": "INC-20261025_003201-290",
+  "incident_type": "ASSET_THEFT",
+  "item_class": "mouse",
+  "confidence": 0.8599,
+  "timestamp": "2026-10-25 00:32:01",
+  "classroom": {
+    "name": "IT-융합공학관 402호 멀티미디어실습실",
+    "camera": "CCTV-CAM-01 (통로/출입구 방면)",
+    "seat_location": "자산 MOUSE_11 (화면 좌표 1935,758) - 영상 9.5초 시점"
+  },
+  "bounding_box": {
+    "x1": 1921,
+    "y1": 746,
+    "x2": 1949,
+    "y2": 770,
+    "width": 28,
+    "height": 24
+  },
+  "investigation": {
+    "suspect_note": "추적 ID #2 인물이 MOUSE_11에 접촉한 뒤 해당 물품이 소멸, 출입문 방향으로 이동하여 반출한 것으로 판정",
+    "action_taken": "보안 관제실 비상 알림 전송 및 해당 시점 고화질 CCTV 증거 영상 영구 보관"
+  },
+  "files": {
+    "crop_image": "incident_reports\\crops\\INC-20261025_003201-290_mouse_crop.jpg",
+    "report_card_image": "incident_reports\\cards\\INC-20261025_003201-290_ASSET_THEFT_report_card.jpg"
+  }
+}

@@ -60,7 +60,8 @@ class IncidentReportGenerator:
         camera_id: str = "CCTV-CAM-01 (후방 와이드)",
         location_desc: str = "3열 2번 좌석 책상 위",
         suspect_desc: Optional[str] = "출입문 방향으로 이동한 회색 후드티 사용자",
-        action_note: str = "실습실 분실물 보관함 #03 이관 완료 및 학과 사무실 등록"
+        action_note: str = "실습실 분실물 보관함 #03 이관 완료 및 학과 사무실 등록",
+        crop_source_frame: Optional[np.ndarray] = None
     ) -> Dict[str, Any]:
         """
         단일 사건에 대한 증거 크롭, 비주얼 리포트 카드, HTML 문서, JSON 파일 원클릭 일괄 생성
@@ -73,13 +74,15 @@ class IncidentReportGenerator:
         h, w, _ = full_frame.shape
         x1, y1, x2, y2 = bbox
 
-        # 1. 고화질 증거 물품 크롭 (약간의 마진 추가)
-        margin = 35
+        # 1. 고화질 증거 물품 크롭 (작은 물품은 넉넉한 마진 적용)
+        margin = 55 if item_class.lower() in ["mouse", "airpods", "charger"] else 35
         crop_x1 = max(0, x1 - margin)
         crop_y1 = max(0, y1 - margin)
         crop_x2 = min(w, x2 + margin)
         crop_y2 = min(h, y2 + margin)
-        crop_img = full_frame[crop_y1:crop_y2, crop_x1:crop_x2].copy()
+        # crop_source_frame이 주어지면(물품이 아직 존재하던 기준 프레임) 그 프레임에서 증거 크롭 추출
+        crop_src = crop_source_frame if crop_source_frame is not None else full_frame
+        crop_img = crop_src[crop_y1:crop_y2, crop_x1:crop_x2].copy()
 
         # 크롭 이미지 저장
         crop_filename = f"{incident_id}_{item_class}_crop.jpg"
