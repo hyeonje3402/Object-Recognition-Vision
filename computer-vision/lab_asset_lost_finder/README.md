@@ -19,13 +19,26 @@
 
 ## 📁 주요 구성 파일
 - `main.py`: 실시간 프레임 추론, FSM 룰 평가 및 HUD 시각화 실행
-- `config.py`: ROI 관심영역(교탁, 출구문, 책상 등) 비율 및 타이머 설정
+- `run_real_theft_incident_pipeline.py`: 실전 CCTV 비디오 기반 동적 상호작용 도난 감지 및 증거 리포트 자동 발급 파이프라인
+- `core/interaction_tracker.py`: ByteTrack + 템플릿 매칭 결합 동적 도난 판정 엔진 (프레임 하드코딩 제거)
+- `core/personal_item_tracker.py`: 개인 소지품 소유자 귀속 및 제3자 절도 판정 엔진 (엣지케이스 방어)
 - `core/report_generator.py`: 분실물/도난 증거 물품 고화질 크롭 및 공식 조사 보고서(JPG/HTML/JSON) 자동 생성기
+- `tests/test_personal_item_theft.py`: 개인 소지품 절도/방치 시나리오 10종 엣지케이스 단위 테스트
+- `config.py`: ROI 관심영역(교탁, 출구문, 책상 등) 비율 및 타이머 설정
 - `generate_incident_reports.py`: 다중 강의실 분실물 및 도난 사건 증거 리포트 자동 발급 실증 스크립트
 - `render_all_items_new_video.py`: 2944x1248 초고화질 신규 CCTV 영상 전수 객체 탐지 및 창문 반사 필터링
 - `prepare_training_data.py`: 실습실 맞춤형 초소형 분실물(에어팟, 충전기/어댑터) 데이터셋 증강 및 패치 생성
 - `train_lab_model.py`: YOLO11n 기반 실습실 전이학습(Fine-tuning) 스크립트
 - `evaluate_trained_model.py`: 파인튜닝된 가중치(`best.pt`) 추론 및 HUD 통계 시각화
+
+---
+
+## 📑 주간 실습 및 중간평가 보고서 (`docs/reports/`)
+- [3주차 주간 보고서 (수치화)](docs/reports/week3_report.md): FSM 3단계 상태 머신, ROI 크롭 & CLAHE 전처리
+- [4주차 주간 보고서 (수치화)](docs/reports/week4_report.md): 전 좌석 전수 인벤토리 HUD 모니터링 및 원거리 미탐 분석
+- [5주차 주간 보고서 (수치화)](docs/reports/week5_report.md): SAHI 타일 슬라이싱, Grid Prior 융합, 650장 파인튜닝, ByteTrack 버퍼
+- [6주차 주간 보고서 (수치화)](docs/reports/week6_report.md): 2944×1248 듀얼 실영상 CCTV 파이프라인, RGB 색상 보정, GREEDYNMM(IOS)
+- [7주차 중간평가 보고서 (수치화)](docs/reports/week7_midterm_report.md): 동적 FSM 도난 판정, 3종 증거 리포트 자동 발급, 소유권 추적 단위 테스트
 
 ---
 
