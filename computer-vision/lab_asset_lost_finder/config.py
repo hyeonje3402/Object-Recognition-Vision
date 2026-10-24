@@ -15,22 +15,28 @@ class ROIConfig:
 
 # 클래스 정의
 TARGET_CLASSES = {
-    "PUBLIC_ASSETS": ["mouse", "keyboard", "cable", "hdmi", "remote"], # 공용 기자재
+    "PUBLIC_ASSETS": ["mouse", "keyboard", "cable", "hdmi", "remote", "public_mouse"], # 공용 기자재
     "PERSONAL_ITEMS": ["cell phone", "laptop", "tablet", "ipad"],       # 중대형 개인 물품
-    "SMALL_PERSONAL_ITEMS": ["small_personal_item", "ring", "tint", "keychain", "earbuds"], # 초소형 분실물
+    "SMALL_PERSONAL_ITEMS": ["airpods", "charger", "earbuds", "small_personal_item", "ring", "tint", "keychain"], # 초소형 분실물
     "PERSON": ["person"]                                               # 사람(학생/교수/외부인)
 }
 
-# COCO 데이터셋 기준 클래스 매핑 (실습 및 테스트용)
-# 실제 커스텀 학습 시 'hdmi', 'small_personal_item' 등이 클래스로 추가됨
+# COCO 데이터셋 기준 클래스 매핑
 COCO_CLASS_MAP = {
     0: "person",
     64: "mouse",
     66: "keyboard",
     67: "cell phone",
     63: "laptop",
-    # 커스텀 모델 클래스 ID 예시 (향후 학습 시 매핑)
-    80: "small_personal_item"
+}
+
+# 커스텀 파인튜닝 실습실 모델 클래스 매핑 (Option 4)
+CUSTOM_LAB_CLASS_MAP = {
+    0: "mouse",
+    1: "public_mouse",
+    2: "keyboard",
+    3: "airpods",
+    4: "charger"
 }
 
 # 타이머 설정 (초 단위)

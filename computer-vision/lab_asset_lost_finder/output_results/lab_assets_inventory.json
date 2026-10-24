@@ -1,0 +1,758 @@
+{
+  "MONITOR_01": {
+    "class": "monitor",
+    "bbox": [
+      411.8,
+      193.3,
+      469.5,
+      227.6
+    ]
+  },
+  "MONITOR_02": {
+    "class": "monitor",
+    "bbox": [
+      607.6,
+      193.4,
+      668.4,
+      227.3
+    ]
+  },
+  "MONITOR_03": {
+    "class": "monitor",
+    "bbox": [
+      725.8,
+      196.4,
+      789.4,
+      232.4
+    ]
+  },
+  "MONITOR_04": {
+    "class": "monitor",
+    "bbox": [
+      318.9,
+      198.3,
+      376.8,
+      233.9
+    ]
+  },
+  "MONITOR_05": {
+    "class": "monitor",
+    "bbox": [
+      845.4,
+      201.7,
+      910.7,
+      239.6
+    ]
+  },
+  "MONITOR_06": {
+    "class": "monitor",
+    "bbox": [
+      957.0,
+      207.1,
+      1020.7,
+      247.6
+    ]
+  },
+  "MONITOR_07": {
+    "class": "monitor",
+    "bbox": [
+      581.3,
+      230.9,
+      647.2,
+      261.6
+    ]
+  },
+  "MONITOR_08": {
+    "class": "monitor",
+    "bbox": [
+      138.6,
+      232.2,
+      198.4,
+      271.6
+    ]
+  },
+  "MONITOR_09": {
+    "class": "monitor",
+    "bbox": [
+      845.8,
+      238.5,
+      916.2,
+      274.2
+    ]
+  },
+  "MONITOR_10": {
+    "class": "monitor",
+    "bbox": [
+      960.3,
+      244.6,
+      1028.9,
+      283.9
+    ]
+  },
+  "MONITOR_11": {
+    "class": "monitor",
+    "bbox": [
+      355.5,
+      249.2,
+      424.1,
+      293.9
+    ]
+  },
+  "MONITOR_12": {
+    "class": "monitor",
+    "bbox": [
+      270.4,
+      253.4,
+      336.7,
+      297.4
+    ]
+  },
+  "MONITOR_13": {
+    "class": "monitor",
+    "bbox": [
+      565.6,
+      262.1,
+      635.5,
+      298.8
+    ]
+  },
+  "MONITOR_14": {
+    "class": "monitor",
+    "bbox": [
+      695.1,
+      264.5,
+      770.1,
+      306.7
+    ]
+  },
+  "MONITOR_15": {
+    "class": "monitor",
+    "bbox": [
+      66.7,
+      266.5,
+      127.8,
+      311.0
+    ]
+  },
+  "MONITOR_16": {
+    "class": "monitor",
+    "bbox": [
+      838.4,
+      273.7,
+      915.1,
+      316.4
+    ]
+  },
+  "MONITOR_17": {
+    "class": "monitor",
+    "bbox": [
+      964.6,
+      288.0,
+      1041.2,
+      327.8
+    ]
+  },
+  "MONITOR_18": {
+    "class": "monitor",
+    "bbox": [
+      293.7,
+      305.4,
+      371.9,
+      356.6
+    ]
+  },
+  "MONITOR_19": {
+    "class": "monitor",
+    "bbox": [
+      520.6,
+      308.2,
+      602.4,
+      362.4
+    ]
+  },
+  "MONITOR_20": {
+    "class": "monitor",
+    "bbox": [
+      667.2,
+      310.7,
+      753.2,
+      369.2
+    ]
+  },
+  "MONITOR_21": {
+    "class": "monitor",
+    "bbox": [
+      192.8,
+      310.9,
+      270.2,
+      359.9
+    ]
+  },
+  "MONITOR_22": {
+    "class": "monitor",
+    "bbox": [
+      51.0,
+      311.7,
+      119.6,
+      360.2
+    ]
+  },
+  "MONITOR_23": {
+    "class": "monitor",
+    "bbox": [
+      832.0,
+      318.8,
+      922.0,
+      380.4
+    ]
+  },
+  "MONITOR_24": {
+    "class": "monitor",
+    "bbox": [
+      0.0,
+      322.5,
+      14.4,
+      369.7
+    ]
+  },
+  "MONITOR_25": {
+    "class": "monitor",
+    "bbox": [
+      966.2,
+      328.3,
+      1056.9,
+      390.5
+    ]
+  },
+  "KEYBOARD_01": {
+    "class": "keyboard",
+    "bbox": [
+      279.2,
+      363.1,
+      341.7,
+      373.9
+    ]
+  },
+  "MOUSE_01": {
+    "class": "mouse",
+    "bbox": [
+      255.4,
+      366.2,
+      268.0,
+      374.0
+    ]
+  },
+  "KEYBOARD_02": {
+    "class": "keyboard",
+    "bbox": [
+      508.0,
+      367.6,
+      585.9,
+      383.5
+    ]
+  },
+  "MONITOR_26": {
+    "class": "monitor",
+    "bbox": [
+      234.4,
+      372.4,
+      314.1,
+      432.8
+    ]
+  },
+  "KEYBOARD_03": {
+    "class": "keyboard",
+    "bbox": [
+      657.2,
+      373.6,
+      737.4,
+      391.7
+    ]
+  },
+  "MOUSE_02": {
+    "class": "mouse",
+    "bbox": [
+      592.6,
+      374.7,
+      607.4,
+      384.8
+    ]
+  },
+  "MONITOR_27": {
+    "class": "monitor",
+    "bbox": [
+      127.5,
+      375.8,
+      204.6,
+      434.1
+    ]
+  },
+  "KEYBOARD_04": {
+    "class": "keyboard",
+    "bbox": [
+      827.2,
+      382.6,
+      905.9,
+      404.3
+    ]
+  },
+  "MOUSE_03": {
+    "class": "mouse",
+    "bbox": [
+      746.9,
+      383.1,
+      759.8,
+      392.9
+    ]
+  },
+  "MONITOR_28": {
+    "class": "monitor",
+    "bbox": [
+      481.8,
+      384.8,
+      574.2,
+      452.9
+    ]
+  },
+  "MONITOR_29": {
+    "class": "monitor",
+    "bbox": [
+      640.9,
+      389.0,
+      739.0,
+      464.9
+    ]
+  },
+  "MOUSE_04": {
+    "class": "mouse",
+    "bbox": [
+      915.6,
+      393.8,
+      930.9,
+      404.8
+    ]
+  },
+  "KEYBOARD_05": {
+    "class": "keyboard",
+    "bbox": [
+      965.3,
+      393.9,
+      1043.4,
+      416.0
+    ]
+  },
+  "MONITOR_30": {
+    "class": "monitor",
+    "bbox": [
+      811.7,
+      399.9,
+      910.4,
+      476.0
+    ]
+  },
+  "MOUSE_05": {
+    "class": "mouse",
+    "bbox": [
+      1058.3,
+      407.5,
+      1075.0,
+      419.4
+    ]
+  },
+  "MONITOR_31": {
+    "class": "monitor",
+    "bbox": [
+      961.3,
+      410.6,
+      1068.3,
+      492.1
+    ]
+  },
+  "KEYBOARD_06": {
+    "class": "keyboard",
+    "bbox": [
+      106.1,
+      444.1,
+      182.2,
+      458.6
+    ]
+  },
+  "KEYBOARD_07": {
+    "class": "keyboard",
+    "bbox": [
+      202.4,
+      445.6,
+      278.8,
+      461.1
+    ]
+  },
+  "MOUSE_06": {
+    "class": "mouse",
+    "bbox": [
+      182.0,
+      448.1,
+      198.1,
+      458.5
+    ]
+  },
+  "MOUSE_07": {
+    "class": "mouse",
+    "bbox": [
+      278.8,
+      450.6,
+      290.5,
+      459.8
+    ]
+  },
+  "KEYBOARD_08": {
+    "class": "keyboard",
+    "bbox": [
+      464.0,
+      459.7,
+      555.8,
+      480.8
+    ]
+  },
+  "MONITOR_32": {
+    "class": "monitor",
+    "bbox": [
+      60.7,
+      467.4,
+      143.0,
+      532.4
+    ]
+  },
+  "KEYBOARD_09": {
+    "class": "keyboard",
+    "bbox": [
+      627.8,
+      468.6,
+      720.5,
+      492.3
+    ]
+  },
+  "MOUSE_08": {
+    "class": "mouse",
+    "bbox": [
+      564.7,
+      469.5,
+      580.6,
+      482.9
+    ]
+  },
+  "MONITOR_33": {
+    "class": "monitor",
+    "bbox": [
+      0.1,
+      478.4,
+      24.8,
+      536.0
+    ]
+  },
+  "KEYBOARD_10": {
+    "class": "keyboard",
+    "bbox": [
+      806.6,
+      479.9,
+      894.0,
+      503.9
+    ]
+  },
+  "MOUSE_09": {
+    "class": "mouse",
+    "bbox": [
+      731.7,
+      481.0,
+      747.1,
+      494.9
+    ]
+  },
+  "MONITOR_34": {
+    "class": "monitor",
+    "bbox": [
+      434.7,
+      482.5,
+      538.8,
+      565.6
+    ]
+  },
+  "MONITOR_35": {
+    "class": "monitor",
+    "bbox": [
+      602.2,
+      492.4,
+      715.1,
+      580.6
+    ]
+  },
+  "MOUSE_10": {
+    "class": "mouse",
+    "bbox": [
+      907.7,
+      492.9,
+      925.5,
+      507.5
+    ]
+  },
+  "KEYBOARD_11": {
+    "class": "keyboard",
+    "bbox": [
+      959.8,
+      493.0,
+      1049.0,
+      520.0
+    ]
+  },
+  "MONITOR_36": {
+    "class": "monitor",
+    "bbox": [
+      786.1,
+      503.2,
+      906.1,
+      594.2
+    ]
+  },
+  "MOUSE_11": {
+    "class": "mouse",
+    "bbox": [
+      1064.9,
+      509.6,
+      1085.4,
+      524.3
+    ]
+  },
+  "MONITOR_37": {
+    "class": "monitor",
+    "bbox": [
+      958.3,
+      520.4,
+      1081.4,
+      615.5
+    ]
+  },
+  "KEYBOARD_12": {
+    "class": "keyboard",
+    "bbox": [
+      38.3,
+      541.4,
+      124.2,
+      564.4
+    ]
+  },
+  "MOUSE_12": {
+    "class": "mouse",
+    "bbox": [
+      123.2,
+      552.2,
+      142.5,
+      566.8
+    ]
+  },
+  "KEYBOARD_13": {
+    "class": "keyboard",
+    "bbox": [
+      414.9,
+      569.6,
+      518.4,
+      599.3
+    ]
+  },
+  "MONITOR_38": {
+    "class": "monitor",
+    "bbox": [
+      0.1,
+      573.7,
+      75.2,
+      658.5
+    ]
+  },
+  "MOUSE_13": {
+    "class": "mouse",
+    "bbox": [
+      526.5,
+      585.8,
+      544.5,
+      603.7
+    ]
+  },
+  "KEYBOARD_14": {
+    "class": "keyboard",
+    "bbox": [
+      588.0,
+      587.6,
+      692.3,
+      619.9
+    ]
+  },
+  "KEYBOARD_15": {
+    "class": "keyboard",
+    "bbox": [
+      779.2,
+      605.0,
+      884.4,
+      638.7
+    ]
+  },
+  "MOUSE_14": {
+    "class": "mouse",
+    "bbox": [
+      704.3,
+      607.1,
+      722.4,
+      625.4
+    ]
+  },
+  "KEYBOARD_16": {
+    "class": "keyboard",
+    "bbox": [
+      956.2,
+      623.8,
+      1060.1,
+      657.4
+    ]
+  },
+  "MOUSE_15": {
+    "class": "mouse",
+    "bbox": [
+      900.9,
+      624.6,
+      921.2,
+      643.4
+    ]
+  },
+  "MONITOR_39": {
+    "class": "monitor",
+    "bbox": [
+      382.1,
+      626.4,
+      505.4,
+      727.7
+    ]
+  },
+  "MOUSE_16": {
+    "class": "mouse",
+    "bbox": [
+      1077.6,
+      644.7,
+      1099.7,
+      663.3
+    ]
+  },
+  "MONITOR_40": {
+    "class": "monitor",
+    "bbox": [
+      573.5,
+      649.4,
+      710.8,
+      764.1
+    ]
+  },
+  "KEYBOARD_17": {
+    "class": "keyboard",
+    "bbox": [
+      0.1,
+      665.7,
+      52.8,
+      697.6
+    ]
+  },
+  "MONITOR_41": {
+    "class": "monitor",
+    "bbox": [
+      782.9,
+      678.6,
+      930.9,
+      792.1
+    ]
+  },
+  "MOUSE_17": {
+    "class": "mouse",
+    "bbox": [
+      48.7,
+      683.8,
+      68.4,
+      701.9
+    ]
+  },
+  "MONITOR_42": {
+    "class": "monitor",
+    "bbox": [
+      986.1,
+      702.7,
+      1135.7,
+      823.7
+    ]
+  },
+  "KEYBOARD_18": {
+    "class": "keyboard",
+    "bbox": [
+      363.1,
+      729.2,
+      482.4,
+      775.3
+    ]
+  },
+  "MOUSE_18": {
+    "class": "mouse",
+    "bbox": [
+      489.6,
+      756.7,
+      510.9,
+      780.3
+    ]
+  },
+  "KEYBOARD_19": {
+    "class": "keyboard",
+    "bbox": [
+      557.3,
+      759.2,
+      683.8,
+      807.0
+    ]
+  },
+  "MOUSE_19": {
+    "class": "mouse",
+    "bbox": [
+      700.1,
+      789.8,
+      721.3,
+      814.2
+    ]
+  },
+  "KEYBOARD_20": {
+    "class": "keyboard",
+    "bbox": [
+      773.6,
+      791.9,
+      899.8,
+      840.1
+    ]
+  },
+  "MOUSE_20": {
+    "class": "mouse",
+    "bbox": [
+      912.8,
+      822.0,
+      934.7,
+      848.6
+    ]
+  },
+  "KEYBOARD_21": {
+    "class": "keyboard",
+    "bbox": [
+      980.6,
+      824.6,
+      1102.0,
+      869.9
+    ]
+  },
+  "MOUSE_21": {
+    "class": "mouse",
+    "bbox": [
+      1115.9,
+      848.5,
+      1139.1,
+      877.1
+    ]
+  }
+}
