@@ -1,0 +1,28 @@
+{
+  "incident_id": "INC-20261025_050105-991",
+  "incident_type": "ASSET_THEFT",
+  "item_class": "public_mouse",
+  "confidence": 0.96,
+  "timestamp": "2026-10-25 05:01:05",
+  "classroom": {
+    "name": "인문사회관 205호 멀티미디어강의실",
+    "camera": "CCTV-CAM-01 (강의실 전경 시점)",
+    "seat_location": "강의실 전면 교탁 위 (좌표 X:1768~1805, Y:1042~1078)"
+  },
+  "bounding_box": {
+    "x1": 1768,
+    "y1": 1042,
+    "x2": 1805,
+    "y2": 1078,
+    "width": 37,
+    "height": 36
+  },
+  "investigation": {
+    "suspect_note": "남색 맨투맨 및 회색 백팩 착용 학생 (ByteTrack ID #102) - 교탁 접근 후 마우스 은닉 도주",
+    "action_taken": "교내 보안팀 즉각 출동 요청 및 출입문(CAM-02) 연동 도주로 차단 지시"
+  },
+  "files": {
+    "crop_image": "incident_reports\\crops\\INC-20261025_050105-991_public_mouse_crop.jpg",
+    "report_card_image": "incident_reports\\cards\\INC-20261025_050105-991_ASSET_THEFT_report_card.jpg"
+  }
+}
