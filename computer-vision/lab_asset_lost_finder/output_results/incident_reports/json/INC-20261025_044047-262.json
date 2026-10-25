@@ -1,0 +1,28 @@
+{
+  "incident_id": "INC-20261025_044047-262",
+  "incident_type": "LOST_PROPERTY",
+  "item_class": "bottle",
+  "confidence": 0.94,
+  "timestamp": "2026-10-25 04:40:47",
+  "classroom": {
+    "name": "인문사회관 205호 멀티미디어강의실",
+    "camera": "CCTV-CAM-01 (강의실 전경 시점)",
+    "seat_location": "강의실 좌석 책상 위 (좌표 X:2125~2185, Y:413~530)"
+  },
+  "bounding_box": {
+    "x1": 2125,
+    "y1": 413,
+    "x2": 2185,
+    "y2": 530,
+    "width": 60,
+    "height": 117
+  },
+  "investigation": {
+    "suspect_note": "수업 종료 후 학생 전원 퇴실 완료 시점까지 책상 위에 장시간 방치됨",
+    "action_taken": "실습실 분실물 보관함 #02 보관 및 학과사무실 분실물 등록 공지 완료"
+  },
+  "files": {
+    "crop_image": "incident_reports\\crops\\INC-20261025_044047-262_bottle_crop.jpg",
+    "report_card_image": "incident_reports\\cards\\INC-20261025_044047-262_LOST_PROPERTY_report_card.jpg"
+  }
+}

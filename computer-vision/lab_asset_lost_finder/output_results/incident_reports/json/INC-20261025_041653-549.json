@@ -1,0 +1,28 @@
+{
+  "incident_id": "INC-20261025_041653-549",
+  "incident_type": "ASSET_THEFT",
+  "item_class": "handbag",
+  "confidence": 0.9,
+  "timestamp": "2026-10-25 04:16:53",
+  "classroom": {
+    "name": "인문사회관 205호 멀티미디어강의실",
+    "camera": "CCTV-CAM-01 (강의실 전경 시점)",
+    "seat_location": "강의실 좌석 책상 위 (좌표 X:1703~1750, Y:70~133)"
+  },
+  "bounding_box": {
+    "x1": 1703,
+    "y1": 70,
+    "x2": 1750,
+    "y2": 133,
+    "width": 47,
+    "height": 63
+  },
+  "investigation": {
+    "suspect_note": "퇴실 완료 후 책상 위 물품이 사라짐 - 제3자 반출 의심",
+    "action_taken": "CCTV 영상 확인 및 학과사무실 도난 신고 접수"
+  },
+  "files": {
+    "crop_image": "incident_reports\\crops\\INC-20261025_041653-549_handbag_crop.jpg",
+    "report_card_image": "incident_reports\\cards\\INC-20261025_041653-549_ASSET_THEFT_report_card.jpg"
+  }
+}

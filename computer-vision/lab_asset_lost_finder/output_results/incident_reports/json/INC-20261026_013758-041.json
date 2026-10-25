@@ -1,0 +1,28 @@
+{
+  "incident_id": "INC-20261026_013758-041",
+  "incident_type": "PERSONAL_ITEM_THEFT",
+  "item_class": "무선이어폰 (AirPods)",
+  "confidence": 0.9335,
+  "timestamp": "2026-10-26 01:37:58",
+  "classroom": {
+    "name": "인문사회관 205호 멀티미디어강의실",
+    "camera": "CCTV-CAM-01 (강의실 전경 시점)",
+    "seat_location": "강의실 전면 교탁 위 (좌표 X:1768~1805, Y:1042~1078)"
+  },
+  "bounding_box": {
+    "x1": 1768,
+    "y1": 1042,
+    "x2": 1805,
+    "y2": 1078,
+    "width": 37,
+    "height": 36
+  },
+  "investigation": {
+    "suspect_note": "남색 맨투맨 및 회색 백팩 착용 학생 (ByteTrack ID #102) - 교탁 접근 후 무선이어폰(에어팟) 은닉 도주",
+    "action_taken": "교내 보안팀 즉각 출동 요청 및 무선이어폰(AirPods) 피해 학생 확인 절차 개시"
+  },
+  "files": {
+    "crop_image": "incident_reports\\crops\\INC-20261026_013758-041_무선이어폰 (AirPods)_crop.jpg",
+    "report_card_image": "incident_reports\\cards\\INC-20261026_013758-041_PERSONAL_ITEM_THEFT_report_card.jpg"
+  }
+}

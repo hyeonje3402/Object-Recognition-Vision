@@ -1,0 +1,28 @@
+{
+  "incident_id": "INC-20261025_035438-490",
+  "incident_type": "LOST_PROPERTY",
+  "item_class": "handbag",
+  "confidence": 0.9,
+  "timestamp": "2026-10-25 03:54:38",
+  "classroom": {
+    "name": "인문사회관 205호 멀티미디어강의실",
+    "camera": "CCTV-CAM-01 (강의실 전경 시점)",
+    "seat_location": "강의실 좌석 책상 위 (좌표 X:1945~1998, Y:104~187)"
+  },
+  "bounding_box": {
+    "x1": 1945,
+    "y1": 104,
+    "x2": 1998,
+    "y2": 187,
+    "width": 53,
+    "height": 83
+  },
+  "investigation": {
+    "suspect_note": "수업 종료 후 학생 대부분 퇴실 완료 시점까지 책상 위에 방치됨",
+    "action_taken": "실습실 분실물 보관함 보관 및 학과사무실 분실물 등록 공지"
+  },
+  "files": {
+    "crop_image": "incident_reports\\crops\\INC-20261025_035438-490_handbag_crop.jpg",
+    "report_card_image": "incident_reports\\cards\\INC-20261025_035438-490_LOST_PROPERTY_report_card.jpg"
+  }
+}

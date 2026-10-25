@@ -1,0 +1,28 @@
+{
+  "incident_id": "INC-20261025_001326-549",
+  "incident_type": "ASSET_THEFT",
+  "item_class": "mouse",
+  "confidence": 0.978,
+  "timestamp": "2026-10-25 00:13:26",
+  "classroom": {
+    "name": "IT-융합공학관 402호 멀티미디어실습실",
+    "camera": "CCTV-CAM-01 (통로/출입구 방면)",
+    "seat_location": "1열 4번 좌석 (우측 통로 및 출입문 바로 앞 좌석)"
+  },
+  "bounding_box": {
+    "x1": 1921,
+    "y1": 746,
+    "x2": 1949,
+    "y2": 770,
+    "width": 28,
+    "height": 24
+  },
+  "investigation": {
+    "suspect_note": "남색 후드티 및 청바지 착용 학생이 통로를 통과하며 1열 4번 좌석의 공용 마우스를 집어 손에 쥐고 출입구로 반출 감지",
+    "action_taken": "보안 관제실 비상 팝업 알림 전송 및 마우스 도난 시점 고화질 CCTV 증거 영상(10초) 영구 보관"
+  },
+  "files": {
+    "crop_image": "incident_reports\\crops\\INC-20261025_001326-549_mouse_crop.jpg",
+    "report_card_image": "incident_reports\\cards\\INC-20261025_001326-549_ASSET_THEFT_report_card.jpg"
+  }
+}

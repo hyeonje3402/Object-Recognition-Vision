@@ -1,0 +1,28 @@
+{
+  "incident_id": "INC-20261025_035605-111",
+  "incident_type": "LOST_PROPERTY",
+  "item_class": "laptop",
+  "confidence": 0.9,
+  "timestamp": "2026-10-25 03:56:05",
+  "classroom": {
+    "name": "인문사회관 205호 멀티미디어강의실",
+    "camera": "CCTV-CAM-01 (강의실 전경 시점)",
+    "seat_location": "강의실 좌석 책상 위 (좌표 X:1545~1786, Y:905~1048)"
+  },
+  "bounding_box": {
+    "x1": 1545,
+    "y1": 905,
+    "x2": 1786,
+    "y2": 1048,
+    "width": 241,
+    "height": 143
+  },
+  "investigation": {
+    "suspect_note": "수업 종료 후 학생 대부분 퇴실 완료 시점까지 책상 위에 방치됨",
+    "action_taken": "실습실 분실물 보관함 보관 및 학과사무실 분실물 등록 공지"
+  },
+  "files": {
+    "crop_image": "incident_reports\\crops\\INC-20261025_035605-111_laptop_crop.jpg",
+    "report_card_image": "incident_reports\\cards\\INC-20261025_035605-111_LOST_PROPERTY_report_card.jpg"
+  }
+}
