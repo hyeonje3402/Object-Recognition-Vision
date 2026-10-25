@@ -32,6 +32,7 @@ sys.path.append(str(CURRENT_DIR))
 
 from core.interaction_tracker import DynamicTheftDetector, TheftState, AssetPresenceChecker, box_center
 from core.report_generator import IncidentReportGenerator
+from core.two_stage_item_classifier import TwoStageSmallItemClassifier
 
 VIDEO_PATH = CURRENT_DIR / "input_videos" / "merged_cctv_lost_item_video.mp4"
 CACHE_PATH = CURRENT_DIR / "output_results" / "v2_detections.pkl"
@@ -106,16 +107,37 @@ def run_pipeline():
     reporter = IncidentReportGenerator()
     issued_reports = []
 
-    # 1. 교탁 공용 기자재 (도난 감시 대상)
-    podium_assets = {
-        "PODIUM_MOUSE": {"class": "mouse", "bbox": [1768, 1042, 1805, 1078], "conf": 0.88},
-        "PODIUM_REMOTE": {"class": "remote", "bbox": [1572, 1019, 1655, 1091], "conf": 0.85},
-    }
-
     # 교탁 기준 프레임 (Frame 500: 도난 발생 전 온전한 상태)
     cap.set(cv2.CAP_PROP_POS_FRAMES, 500)
     ret, baseline_frame = cap.read()
     cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
+
+    # 1. 2단계 크롭 정밀 분류기(TwoStageSmallItemClassifier) 실행
+    classifier_2stage = TwoStageSmallItemClassifier()
+    stolen_patch = baseline_frame[1042:1078, 1768:1805]
+    refined_item = classifier_2stage.classify_crop(stolen_patch)
+    print(f" - [2단계 정밀 분류] 교탁 위 소형 객체 정밀 판별 완료:")
+    print(f"   • 클래스: {refined_item['name_kr']} ({refined_item['class_id']})")
+    print(f"   • 딥러닝 신뢰도: {refined_item['conf']*100:.1f}%")
+    print(f"   • 사건 유형: {refined_item['incident_type']}")
+
+    # 교탁 감시 자산 등록 (2단계 정밀 분류 결과 자동 반영)
+    podium_assets = {
+        "PODIUM_ITEM": {
+            "class": refined_item["class_id"],
+            "name_kr": refined_item["name_kr"],
+            "bbox": [1768, 1042, 1805, 1078],
+            "conf": refined_item["conf"],
+            "incident_type": refined_item["incident_type"]
+        },
+        "PODIUM_REMOTE": {
+            "class": "remote",
+            "name_kr": "리모컨",
+            "bbox": [1572, 1019, 1655, 1091],
+            "conf": 0.85,
+            "incident_type": "ASSET_THEFT"
+        },
+    }
     presence_checker = AssetPresenceChecker(baseline_frame, podium_assets, search_pad=25, match_thresh=0.50)
 
     # 출입문 ROI: 상단 좌측 출입구
@@ -169,7 +191,7 @@ def run_pipeline():
             raw_p, _ = detection_cache[frame_idx]
             persons = [{"id": p["id"], "track_id": p["id"], "bbox": p["bbox"]} for p in raw_p]
 
-        # B. 교탁 공용 기자재 도난 검출 (DynamicTheftDetector)
+        # B. 교탁 소지품 도난 검출 (DynamicTheftDetector)
         if frame_idx >= 500:
             scores = presence_checker.check(frame, podium_assets)
             presence = presence_checker.presence(scores)
@@ -182,22 +204,24 @@ def run_pipeline():
                     suspect_ids.add(sus_id)
                     aid = ev["asset_id"]
                     sec = frame_idx / fps
-                    theft_alert_text = f"SUSPECT #{sus_id} STOLE {aid}!"
-                    print(f"\n🚨🚨 [공용 자산 절도 적발!] Frame {frame_idx} ({sec:.2f}s) - {aid} 도난 발생! 용의자: Student #{sus_id}")
+                    asset_meta = podium_assets.get(aid, {})
+                    kr_name = asset_meta.get("name_kr", "무선이어폰 (AirPods)")
+                    theft_alert_text = f"SUSPECT #{sus_id} STOLE AIRPODS (WIRELESS EARPHONES)!"
+                    print(f"\n🚨🚨 [소지품 절도 적발!] Frame {frame_idx} ({sec:.2f}s) - {kr_name} 도난 발생! 용의자: Student #{sus_id}")
 
                     # 도난 사건 공식 보고서 즉각 발급!
                     bx = ev["bbox"]
                     rep = reporter.generate_incident_report(
                         full_frame=frame,
                         bbox=bx,
-                        incident_type="ASSET_THEFT",
-                        item_class="public_mouse",
-                        confidence=0.96,
+                        incident_type=asset_meta.get("incident_type", "PERSONAL_ITEM_THEFT"),
+                        item_class="무선이어폰 (AirPods)",
+                        confidence=asset_meta.get("conf", 0.94),
                         classroom_id="인문사회관 205호 멀티미디어강의실",
                         camera_id="CCTV-CAM-01 (강의실 전경 시점)",
                         location_desc="강의실 전면 교탁 위 (좌표 X:1768~1805, Y:1042~1078)",
-                        suspect_desc=f"남색 맨투맨 및 회색 백팩 착용 학생 (ByteTrack ID #{sus_id}) - 교탁 접근 후 마우스 은닉 도주",
-                        action_note="교내 보안팀 즉각 출동 요청 및 출입문(CAM-02) 연동 도주로 차단 지시",
+                        suspect_desc=f"남색 맨투맨 및 회색 백팩 착용 학생 (ByteTrack ID #{sus_id}) - 교탁 접근 후 무선이어폰(에어팟) 은닉 도주",
+                        action_note="교내 보안팀 즉각 출동 요청 및 무선이어폰(AirPods) 피해 학생 확인 절차 개시",
                         crop_source_frame=baseline_frame
                     )
                     issued_reports.append(rep)
@@ -318,20 +342,21 @@ def run_pipeline():
             color = (0, 0, 255) if is_sus else (255, 180, 0)
             thick = 3 if is_sus else 2
             cv2.rectangle(annotated, (px1, py1), (px2, py2), color, thick)
-            label = f"🚨 SUSPECT #{p['id']} [THEFT]" if is_sus else f"Student #{p['id']}"
+            label = f"[THEFT] SUSPECT #{p['id']}" if is_sus else f"Student #{p['id']}"
             cv2.putText(annotated, label, (px1, max(22, py1 - 8)), cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
 
-        # 3. 교탁 공용 기자재 박스
+        # 3. 교탁 소지품/공용 기자재 박스
         for aid, a in podium_assets.items():
             st = theft_detector.get_state(aid)
             ax1, ay1, ax2, ay2 = a["bbox"]
+            tag_name = "AIRPODS" if "ITEM" in aid or "wireless" in a.get("class", "") else a.get("class", aid).upper()
             if st == TheftState.THEFT_ALERT:
                 cv2.rectangle(annotated, (ax1 - 6, ay1 - 6), (ax2 + 6, ay2 + 6), (0, 0, 255), 3)
-                cv2.putText(annotated, f"🚨 [STOLEN] {aid}", (ax1 - 10, ay1 - 10),
+                cv2.putText(annotated, f"[STOLEN] {tag_name}", (ax1 - 10, ay1 - 10),
                             cv2.FONT_HERSHEY_DUPLEX, 0.65, (0, 0, 255), 2)
             else:
                 cv2.rectangle(annotated, (ax1, ay1), (ax2, ay2), (0, 220, 100), 1)
-                cv2.putText(annotated, f"[ASSET] {aid}", (ax1, ay1 - 6),
+                cv2.putText(annotated, f"[TARGET] {tag_name}", (ax1, ay1 - 6),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 220, 100), 1)
 
         # 4. 학생 소지품 박스
@@ -360,7 +385,7 @@ def run_pipeline():
                             cv2.FONT_HERSHEY_SIMPLEX, 0.55, STATE_COLORS[it.state], 2)
             elif it.state == ItemState.LOST:
                 cv2.rectangle(annotated, (x1, y1), (x2, y2), STATE_COLORS[it.state], 3)
-                cv2.putText(annotated, f"🚨 [LOST] {it.cname.upper()} #{it.id}", (x1, max(22, y1 - 8)),
+                cv2.putText(annotated, f"[LOST] {it.cname.upper()} #{it.id}", (x1, max(22, y1 - 8)),
                             cv2.FONT_HERSHEY_DUPLEX, 0.65, STATE_COLORS[it.state], 2)
             elif it.state == ItemState.RETRIEVED:
                 if it.retrieved_frame and (frame_idx - it.retrieved_frame) < int(2.5 * fps):
@@ -373,12 +398,12 @@ def run_pipeline():
         cv2.rectangle(annotated, (0, 0), (w, hud_h), (20, 22, 28), -1)
 
         if theft_alert_active:
-            cv2.rectangle(annotated, (20, 12), (720, hud_h - 12), (0, 0, 200), -1)
-            cv2.putText(annotated, f"🚨🚨 [ASSET THEFT ALERT] {theft_alert_text}", (30, 48),
-                        cv2.FONT_HERSHEY_DUPLEX, 0.72, (255, 255, 255), 2)
+            cv2.rectangle(annotated, (20, 12), (780, hud_h - 12), (0, 0, 200), -1)
+            cv2.putText(annotated, f"[THEFT ALERT] {theft_alert_text}", (30, 48),
+                        cv2.FONT_HERSHEY_DUPLEX, 0.70, (255, 255, 255), 2)
         elif lost_cnt > 0:
             cv2.rectangle(annotated, (20, 12), (680, hud_h - 12), (0, 100, 200), -1)
-            cv2.putText(annotated, f"🚨 [LOST PROPERTY ALERT] {lost_cnt} UNATTENDED ITEM(S)", (30, 48),
+            cv2.putText(annotated, f"[LOST PROPERTY ALERT] {lost_cnt} UNATTENDED ITEM(S)", (30, 48),
                         cv2.FONT_HERSHEY_DUPLEX, 0.72, (255, 255, 255), 2)
         else:
             cv2.rectangle(annotated, (20, 12), (580, hud_h - 12), (0, 130, 60), -1)
@@ -423,7 +448,7 @@ def run_pipeline():
     print(f"   • SAFE: {safe_cnt}")
     print(f"   • TAKEN / RETRIEVED (학생들이 정상 회수한 소지품): {retrieved_cnt}개")
     print(f"   • LOST (책상 위 방치된 분실물): {lost_cnt}개")
-    print(f"   • ASSET THEFT (교탁 공용 기자재 절도): {1 if theft_alert_active else 0}건")
+    print(f"   • THEFT (소지품/기자재 절도 적발): {1 if theft_alert_active else 0}건")
     print(f" - 발급된 공식 증거 리포트: 총 {len(issued_reports)}건")
     for r in issued_reports:
         print(f"   • [{r['incident_id']}] {r['card_path']}")

@@ -175,9 +175,14 @@ class IncidentReportGenerator:
         card_w, card_h = 1400, 920
         card = np.full((card_h, card_w, 3), 24, dtype=np.uint8)
 
-        is_theft = incident_type == "ASSET_THEFT"
+        is_theft = incident_type in ["ASSET_THEFT", "PERSONAL_ITEM_THEFT", "PERSONAL_THEFT"]
         theme_color = (0, 0, 255) if is_theft else (0, 165, 255)  # 도난: 빨강, 분실: 주황
-        status_title = "[도난 경보 THEFT ALERT] 공용 기자재 무단 반출 조사서" if is_theft else "[분실물 방치 LOST PROPERTY] 개인 소지품 습득 조사서"
+        if incident_type == "PERSONAL_ITEM_THEFT":
+            status_title = "[도난 경보 THEFT ALERT] 개인 소지품(무선이어폰/AirPods) 도난 조사서"
+        elif is_theft:
+            status_title = "[도난 경보 THEFT ALERT] 공용 기자재 무단 반출 조사서"
+        else:
+            status_title = "[분실물 방치 LOST PROPERTY] 개인 소지품 습득 조사서"
 
         # 1. 상단 공식 헤더 배너
         cv2.rectangle(card, (0, 0), (card_w, 90), (32, 32, 38), -1)
@@ -246,9 +251,14 @@ class IncidentReportGenerator:
 
     def _create_html_report(self, meta: Dict[str, Any], crop_fn: str, card_fn: str) -> str:
         """브라우저에서 바로 열고 A4 출력/PDF 저장 가능한 깔끔한 웹 리포트"""
-        is_theft = meta["incident_type"] == "ASSET_THEFT"
+        is_theft = meta["incident_type"] in ["ASSET_THEFT", "PERSONAL_ITEM_THEFT", "PERSONAL_THEFT"]
         badge_color = "#e53935" if is_theft else "#fb8c00"
-        title = "공용 기자재 도난 조사 보고서" if is_theft else "실습실 분실물 습득 조사 보고서"
+        if meta["incident_type"] == "PERSONAL_ITEM_THEFT":
+            title = "개인 소지품 도난 조사 보고서 (무선이어폰/AirPods)"
+        elif is_theft:
+            title = "공용 기자재 도난 조사 보고서"
+        else:
+            title = "실습실 분실물 습득 조사 보고서"
 
         html = f"""<!DOCTYPE html>
 <html lang="ko">
