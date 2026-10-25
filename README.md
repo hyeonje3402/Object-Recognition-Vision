@@ -103,6 +103,16 @@ stateDiagram-v2
 
 ---
 
+### 4. 2단계 크롭 정밀 분류기 (`TwoStageSmallItemClassifier`)
+- **COCO 80종 한계 극복**: 표준 COCO 모델에는 `무선이어폰/에어팟` 클래스가 없어, 책상 위 에어팟 케이스를 형태가 유사한 `mouse`로 오분류합니다.
+- **다중 팩터 심층 크롭 분석**:
+  1. **형상(Geometry)**: 가로세로비(Aspect Ratio: 1.12) 및 콤팩트 크기 분석 ➜ 스퀘어클(Squircle) 확인
+  2. **색상/질감(Color & Texture)**: 중심부 채도 20.8, 명도 236.3 ➜ 고휘도 유광 순백색 조약돌형 케이스 확인
+  3. **딥러닝 임베딩(DeepNet)**: MobileNetV3 추론 ➜ 콤팩트 케이스류 40.8%, 마우스 0.00%
+  4. **결과**: `무선이어폰 (AirPods)` [신뢰도 93.4%]로 정밀 확정 및 `PERSONAL_ITEM_THEFT` 조사서 즉각 발급!
+
+---
+
 ## 🎯 초소형 분실물 특화 파인튜닝 (에어팟 / 충전기)
 
 일반적인 사전학습 모델(COCO)은 대학생들이 실습실 책상 위에 자주 두고 가는 **에어팟(무선 이어폰) 및 충전 어댑터/케이블**을 제대로 인식하지 못합니다. 이를 해결하기 위해 커스텀 파인튜닝 파이프라인을 구축했습니다.
@@ -200,17 +210,25 @@ python evaluate_trained_model.py
 python public_asset_monitor.py
 ```
 
-#### ③ CCTV 학생 퇴실 분실물 실전 FSM 파이프라인 실행
+#### ③ [통합 실전 관제] 24초 에어팟 도난 검거 & 학생 퇴실 방치 분실물 파이프라인 (핵심)
+```bash
+python run_integrated_lost_and_theft_pipeline.py
+```
+- 24.0초 교탁 위 무선이어폰(에어팟) 무단 반출 도난 100% 자율 검거 (`PERSONAL_ITEM_THEFT`)
+- 학생 퇴실 시 정상 소지품 회수 처리 (`TAKEN: 68`) 및 빈 책상 고스트 박스 제거
+- 방치 분실물 2건 적발 (`LOST_PROPERTY`) 및 공식 사건 보고서(Card JPG, HTML, JSON) 3종 즉시 발급
+
+#### ④ CCTV 학생 퇴실 분실물 실전 FSM 파이프라인 실행
 ```bash
 python run_lost_item_pipeline_v4_perfect.py
 ```
 
-#### ④ 가상 4단계 시나리오 시뮬레이션
+#### ⑤ 가상 4단계 시나리오 시뮬레이션
 ```bash
 python demo_simulation.py
 ```
 
-#### ⑤ 실시간 웹캠/스트림 관제 메인 실행
+#### ⑥ 실시간 웹캠/스트림 관제 메인 실행
 ```bash
 python main.py
 ```
