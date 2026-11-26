@@ -46,3 +46,12 @@ python main.py
 ~~~
 
 모델 가중치, 입력 영상, ROI와 타이머 설정은 [개발 문서](docs/development/README.md)를 먼저 확인하세요. 탐지 정확도와 도난 판정 결과는 카메라 배치와 입력 영상에 따라 달라집니다.
+## 실제 추론 결과 화면
+
+아래 자료는 저장소에 포함된 CCTV 실습 영상에서 실행한 YOLO 기반 객체 추론 결과입니다. 입력 장면은 실습용 합성/샘플 영상이며 실제 시설의 운영 CCTV 결과가 아닙니다.
+
+| 화면 | 자료 |
+|---|---|
+| 기자재 전체 재고 기준선 | ![기준 기자재 84개가 감지되고 누락 경보가 없는 기준 화면](docs/screenshots/asset-inventory-baseline.jpg) |
+| 기자재 누락 경보 | ![기자재 2개 누락 경보가 표시된 실제 추론 결과](docs/screenshots/asset-missing-alert.jpg) |
+
